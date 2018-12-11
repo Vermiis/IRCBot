@@ -25,10 +25,18 @@ namespace IRCBotWinForms
                 user: "USER IRCbot 0 * :IRCbot",
                 nick: textBoxNickName.Text,
                 channel: textBoxChannel.Text
-                );
-
+                );            
             ircBot.Start();
+            
+        }
 
+        private void backgroundWorker1_DoWork(IRCbot ircBot, object sender, DoWorkEventArgs e)
+        {
+            while (ircBot.comm.messagesIn.Count()>0)
+            {
+                richTextBoxServerMessages.Text = ircBot.comm.messagesIn.ToString();
+            }
+            
         }
     }
 }
