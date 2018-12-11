@@ -24,6 +24,7 @@ namespace IRCBotWinForms
         private readonly string _channel;
 
         private readonly int _maxRetries;
+        public Messages comm = new Messages();
 
         public IRCbot(string server, int port, string user, string nick, string channel, int maxRetries = 3)
         {
@@ -49,8 +50,10 @@ namespace IRCBotWinForms
                     using (var writer = new StreamWriter(stream))
                     {
                         writer.WriteLine("NICK " + _nick);
+                        comm.messagesOut.Enqueue("NICK " + _nick);
                         writer.Flush();
                         writer.WriteLine(_user);
+                        comm.messagesOut.Enqueue(_user);
                         writer.Flush();
 
                         while (true)
@@ -59,6 +62,7 @@ namespace IRCBotWinForms
                             while ((inputLine = reader.ReadLine()) != null)
                             {
                                 Console.WriteLine("<- " + inputLine);
+                                
 
                                 // split the lines sent from the server by spaces (seems to be the easiest way to parse them)
                                 string[] splitInput = inputLine.Split(new Char[] { ' ' });
@@ -68,6 +72,7 @@ namespace IRCBotWinForms
                                     string PongReply = splitInput[1];
                                     //Console.WriteLine("->PONG " + PongReply);
                                     writer.WriteLine("PONG " + PongReply);
+                                    comm.messagesIn.Enqueue(PongReply);
                                     writer.Flush();
                                     //continue;
                                 }
@@ -94,5 +99,12 @@ namespace IRCBotWinForms
                 }
             } while (retry);
         }
+        public void Send (string message)
+        {
+
+        }
     }
+
+    
+
 }

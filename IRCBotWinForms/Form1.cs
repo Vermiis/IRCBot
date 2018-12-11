@@ -16,5 +16,20 @@ namespace IRCBotWinForms
         {
             InitializeComponent();
         }
+
+        private void buttonConnect_Click(object sender, EventArgs e)
+        {
+            var ircBot = new IRCbot(
+                server: "irc.freenode.net",
+                port: 6667,
+                user: "USER IRCbot 0 * :IRCbot",
+                nick: "IRCbot",
+                channel: "#opers"
+                );
+
+            ircBot.Start();
+            ircBot.comm.messagesIn.Count();
+
+        }
     }
 }
