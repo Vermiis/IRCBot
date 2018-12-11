@@ -20,7 +20,6 @@ namespace IRCBotWinForms
 
         // the bot's nickname
         private readonly string _nick;
-        // channel to join
         private readonly string _channel;
 
         private readonly int _maxRetries;
