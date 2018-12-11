@@ -32,11 +32,11 @@
             this.textBoxServerAddr = new System.Windows.Forms.TextBox();
             this.textBoxServerPort = new System.Windows.Forms.TextBox();
             this.textBoxNickName = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBoxChannel = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.richTextBoxServerMessages = new System.Windows.Forms.RichTextBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -57,6 +57,7 @@
             this.textBoxServerAddr.Name = "textBoxServerAddr";
             this.textBoxServerAddr.Size = new System.Drawing.Size(100, 20);
             this.textBoxServerAddr.TabIndex = 1;
+            this.textBoxServerAddr.Text = "irc.freenode.net";
             // 
             // textBoxServerPort
             // 
@@ -64,6 +65,7 @@
             this.textBoxServerPort.Name = "textBoxServerPort";
             this.textBoxServerPort.Size = new System.Drawing.Size(100, 20);
             this.textBoxServerPort.TabIndex = 2;
+            this.textBoxServerPort.Text = "6667";
             // 
             // textBoxNickName
             // 
@@ -71,13 +73,15 @@
             this.textBoxNickName.Name = "textBoxNickName";
             this.textBoxNickName.Size = new System.Drawing.Size(100, 20);
             this.textBoxNickName.TabIndex = 3;
+            this.textBoxNickName.Text = "BotoSowa";
             // 
-            // textBox4
+            // textBoxChannel
             // 
-            this.textBox4.Location = new System.Drawing.Point(566, 24);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 20);
-            this.textBox4.TabIndex = 4;
+            this.textBoxChannel.Location = new System.Drawing.Point(566, 24);
+            this.textBoxChannel.Name = "textBoxChannel";
+            this.textBoxChannel.Size = new System.Drawing.Size(100, 20);
+            this.textBoxChannel.TabIndex = 4;
+            this.textBoxChannel.Text = "#motomirko";
             // 
             // tabControl1
             // 
@@ -100,6 +104,14 @@
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // richTextBoxServerMessages
+            // 
+            this.richTextBoxServerMessages.Location = new System.Drawing.Point(3, 0);
+            this.richTextBoxServerMessages.Name = "richTextBoxServerMessages";
+            this.richTextBoxServerMessages.Size = new System.Drawing.Size(530, 224);
+            this.richTextBoxServerMessages.TabIndex = 0;
+            this.richTextBoxServerMessages.Text = "";
+            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -110,21 +122,13 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // richTextBoxServerMessages
-            // 
-            this.richTextBoxServerMessages.Location = new System.Drawing.Point(3, 0);
-            this.richTextBoxServerMessages.Name = "richTextBoxServerMessages";
-            this.richTextBoxServerMessages.Size = new System.Drawing.Size(530, 224);
-            this.richTextBoxServerMessages.TabIndex = 0;
-            this.richTextBoxServerMessages.Text = "";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.textBoxChannel);
             this.Controls.Add(this.textBoxNickName);
             this.Controls.Add(this.textBoxServerPort);
             this.Controls.Add(this.textBoxServerAddr);
@@ -144,7 +148,7 @@
         private System.Windows.Forms.TextBox textBoxServerAddr;
         private System.Windows.Forms.TextBox textBoxServerPort;
         private System.Windows.Forms.TextBox textBoxNickName;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBoxChannel;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.RichTextBox richTextBoxServerMessages;

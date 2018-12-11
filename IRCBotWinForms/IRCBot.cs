@@ -39,6 +39,7 @@ namespace IRCBotWinForms
         public void Start()
         {
             var retry = false;
+            var users = new List<string>();
             var retryCount = 0;
             do
             {
@@ -62,19 +63,35 @@ namespace IRCBotWinForms
                             while ((inputLine = reader.ReadLine()) != null)
                             {
                                 Console.WriteLine("<- " + inputLine);
-                                
+                                comm.messagesIn.Enqueue("PONG " + inputLine);
 
                                 // split the lines sent from the server by spaces (seems to be the easiest way to parse them)
                                 string[] splitInput = inputLine.Split(new Char[] { ' ' });
+                                string[] getnick = splitInput[0].Split(new char[] {':', '!', '@' });
 
                                 if (splitInput[0] == "PING")
                                 {
                                     string PongReply = splitInput[1];
                                     //Console.WriteLine("->PONG " + PongReply);
                                     writer.WriteLine("PONG " + PongReply);
-                                    comm.messagesIn.Enqueue(PongReply);
+                                    comm.messagesIn.Enqueue("PONG " +PongReply);
                                     writer.Flush();
                                     //continue;
+                                }
+                                if (splitInput[1] == "PRIVMSG" && splitInput[3].Contains(_nick))
+                                {
+                                    writer.WriteLine("PRIVMSG " + _channel + " PUHUPUHU");
+                                    writer.Flush();
+                                }
+                                else if (splitInput[1] == "QUIT"  || splitInput[1] == "PART" )
+                                {
+                                    writer.WriteLine("PRIVMSG " + _channel + " :( " + getnick[1]);
+                                    writer.Flush();
+                                }
+                                else if (splitInput[1] == "JOIN")
+                                {
+                                    writer.WriteLine("PRIVMSG " + _channel + " Hej " + getnick[1]);
+                                    writer.Flush();
                                 }
 
                                 switch (splitInput[1])
@@ -85,7 +102,18 @@ namespace IRCBotWinForms
                                         break;
                                     default:
                                         break;
+                                    case "333":
+                                       // writer.WriteLine("JOIN " + _channel);
+                                       // writer.Flush();
+                                        break;
+
+                                    case "PRIVMSG":
+                                       //  writer.WriteLine("PRIVMSG " + _channel +" PUHUPUHU");
+                                       //  writer.Flush();
+                                        break;
+
                                 }
+                                
                             }
                         }
                     }
@@ -99,10 +127,7 @@ namespace IRCBotWinForms
                 }
             } while (retry);
         }
-        public void Send (string message)
-        {
 
-        }
     }
 
     
