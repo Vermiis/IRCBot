@@ -127,5 +127,25 @@ namespace IRCBotWinForms
             } while (retry);
         }
 
+        public List<string> ShowMsgOut()
+        {
+            string result;
+            List<string> msgout = new List<string>();
+            while (comm.messagesOut.TryDequeue(out result))
+            {
+                try
+                {
+                    msgout.Add(result);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }                
+                
+            }
+            return msgout;
+
+        }
+
     }    
 }
