@@ -14,6 +14,7 @@ namespace IRCBotWinForms
         public ConcurrentQueue<string> messagesServer = new ConcurrentQueue<string>();
         public ConcurrentQueue<string> messagesPriv = new ConcurrentQueue<string>();
         public ConcurrentQueue<string> messagesChannel = new ConcurrentQueue<string>();
+        public ConcurrentQueue<string> messagesToSend = new ConcurrentQueue<string>();
 
         public string SendTime(string channel)
             {

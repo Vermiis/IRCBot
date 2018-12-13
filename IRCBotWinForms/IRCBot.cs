@@ -59,10 +59,21 @@ namespace IRCBotWinForms
                         while (true)
                         {
                             string inputLine;
+                            string msgToSend;
                             while ((inputLine = reader.ReadLine()) != null)
                             {
                                 Console.WriteLine("<- " + inputLine);
                                 comm.messagesIn.Enqueue("<- " + inputLine);
+                                try
+                                {
+                                    comm.messagesToSend.TryDequeue(out msgToSend);
+                                    writer.WriteLine("PRIVMSG " + _channel + msgToSend);
+                                }
+                                catch (Exception)
+                                {
+
+                                    throw;
+                                }
 
                                 // split the lines sent from the server by spaces (seems to be the easiest way to parse them)
                                 string[] splitInput = inputLine.Split(new Char[] { ' ' });

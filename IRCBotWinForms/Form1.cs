@@ -80,7 +80,7 @@ namespace IRCBotWinForms
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
-
+            ircBot.comm.messagesToSend.Enqueue(richTextBoxMsgOut.Text);
         }
     }
 }
