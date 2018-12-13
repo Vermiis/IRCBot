@@ -113,6 +113,7 @@ namespace IRCBotWinForms
 
                                 }
                                 
+                                
                             }
                         }
                     }
@@ -140,8 +141,7 @@ namespace IRCBotWinForms
                 catch (Exception)
                 {
                     throw;
-                }                
-                
+                }                               
             }
             return msgout;
 

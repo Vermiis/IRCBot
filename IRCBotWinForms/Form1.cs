@@ -44,11 +44,12 @@ namespace IRCBotWinForms
         }
 
         private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
-        {
-            var x = ircBot.ShowMsgOut();
-            foreach (var item in x)
+        {      
+            
+            var messages = ircBot.ShowMsgOut();
+            foreach (var item in messages)
             {
-                richTextBoxServerMessages.Text += Environment.NewLine + item;
+                richTextBoxServerMessages.Invoke((MethodInvoker)(() => richTextBoxServerMessages.Text += Environment.NewLine + item));
             }
         }
     }
