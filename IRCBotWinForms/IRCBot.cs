@@ -62,7 +62,7 @@ namespace IRCBotWinForms
                             while ((inputLine = reader.ReadLine()) != null)
                             {
                                 Console.WriteLine("<- " + inputLine);
-                                comm.messagesIn.Enqueue("PONG " + inputLine);
+                                comm.messagesIn.Enqueue("<- " + inputLine);
 
                                 // split the lines sent from the server by spaces (seems to be the easiest way to parse them)
                                 string[] splitInput = inputLine.Split(new Char[] { ' ' });
@@ -145,6 +145,30 @@ namespace IRCBotWinForms
             }
             return msgout;
 
+        }
+
+        public List<string> ShowMsgIn()
+        {
+            string result;
+            List<string> msgin = new List<string>();
+            while (comm.messagesIn.TryDequeue(out result))
+            {
+                try
+                {
+                    msgin.Add(result);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return msgin;
+
+        }
+
+        public void AddMsgToQueue( string msg)
+        {
+            comm.messagesOut.Enqueue(msg);
         }
 
     }    

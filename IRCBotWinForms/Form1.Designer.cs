@@ -37,10 +37,14 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.richTextBoxServerMessages = new System.Windows.Forms.RichTextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.richTextBoxMsgOut = new System.Windows.Forms.RichTextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.richTextBoxMessageToSend = new System.Windows.Forms.RichTextBox();
+            this.buttonSend = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonConnect
@@ -110,12 +114,13 @@
             // 
             this.richTextBoxServerMessages.Location = new System.Drawing.Point(3, 0);
             this.richTextBoxServerMessages.Name = "richTextBoxServerMessages";
-            this.richTextBoxServerMessages.Size = new System.Drawing.Size(530, 224);
+            this.richTextBoxServerMessages.Size = new System.Drawing.Size(530, 296);
             this.richTextBoxServerMessages.TabIndex = 0;
             this.richTextBoxServerMessages.Text = "";
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.richTextBoxMsgOut);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -123,6 +128,14 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // richTextBoxMsgOut
+            // 
+            this.richTextBoxMsgOut.Location = new System.Drawing.Point(6, 6);
+            this.richTextBoxMsgOut.Name = "richTextBoxMsgOut";
+            this.richTextBoxMsgOut.Size = new System.Drawing.Size(521, 290);
+            this.richTextBoxMsgOut.TabIndex = 0;
+            this.richTextBoxMsgOut.Text = "";
             // 
             // backgroundWorker1
             // 
@@ -132,11 +145,31 @@
             // 
             this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
             // 
+            // richTextBoxMessageToSend
+            // 
+            this.richTextBoxMessageToSend.Location = new System.Drawing.Point(52, 421);
+            this.richTextBoxMessageToSend.Name = "richTextBoxMessageToSend";
+            this.richTextBoxMessageToSend.Size = new System.Drawing.Size(423, 62);
+            this.richTextBoxMessageToSend.TabIndex = 1;
+            this.richTextBoxMessageToSend.Text = "";
+            // 
+            // buttonSend
+            // 
+            this.buttonSend.Location = new System.Drawing.Point(510, 442);
+            this.buttonSend.Name = "buttonSend";
+            this.buttonSend.Size = new System.Drawing.Size(75, 23);
+            this.buttonSend.TabIndex = 2;
+            this.buttonSend.Text = "Send";
+            this.buttonSend.UseVisualStyleBackColor = true;
+            this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 505);
+            this.Controls.Add(this.buttonSend);
+            this.Controls.Add(this.richTextBoxMessageToSend);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.textBoxChannel);
             this.Controls.Add(this.textBoxNickName);
@@ -147,6 +180,7 @@
             this.Text = "Form1";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -165,6 +199,9 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private System.Windows.Forms.RichTextBox richTextBoxMsgOut;
+        private System.Windows.Forms.Button buttonSend;
+        private System.Windows.Forms.RichTextBox richTextBoxMessageToSend;
     }
 }
 
