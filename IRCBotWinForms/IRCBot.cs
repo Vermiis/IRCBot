@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace IRCBotWinForms
 {
@@ -24,7 +25,7 @@ namespace IRCBotWinForms
 
         private readonly int _maxRetries;
         public Messages comm = new Messages();
-
+       
         public IRCbot(string server, int port, string user, string nick, string channel, int maxRetries = 3)
         {
             _server = server;
@@ -59,21 +60,12 @@ namespace IRCBotWinForms
                         while (true)
                         {
                             string inputLine;
-                            string msgToSend;
+                            string outputLine;
                             while ((inputLine = reader.ReadLine()) != null)
                             {
                                 Console.WriteLine("<- " + inputLine);
                                 comm.messagesIn.Enqueue("<- " + inputLine);
-                                try
-                                {
-                                    comm.messagesToSend.TryDequeue(out msgToSend);
-                                    writer.WriteLine("PRIVMSG " + _channel + msgToSend);
-                                }
-                                catch (Exception)
-                                {
-
-                                    throw;
-                                }
+                               
 
                                 // split the lines sent from the server by spaces (seems to be the easiest way to parse them)
                                 string[] splitInput = inputLine.Split(new Char[] { ' ' });
@@ -83,24 +75,24 @@ namespace IRCBotWinForms
                                 {
                                     string PongReply = splitInput[1];
                                     //Console.WriteLine("->PONG " + PongReply);
-                                    writer.WriteLine("PONG " + PongReply);
+                                    writer.WriteAsync("PONG " + PongReply);
                                     comm.messagesIn.Enqueue("PONG " +PongReply);
                                     writer.Flush();
                                     //continue;
                                 }
                                 if (splitInput[1] == "PRIVMSG" && splitInput[3].Contains(_nick))
                                 {
-                                    writer.WriteLine("PRIVMSG " + _channel + " PUHUPUHU");
+                                    writer.WriteAsync("PRIVMSG " + _channel + " PUHUPUHU");
                                     writer.Flush();
                                 }
                                 else if (splitInput[1] == "QUIT"  || splitInput[1] == "PART" )
                                 {
-                                    writer.WriteLine("PRIVMSG " + _channel + " :( " + getnick[1]);
+                                    writer.WriteAsync("PRIVMSG " + _channel + " :( " + getnick[1]);
                                     writer.Flush();
                                 }
                                 else if (splitInput[1] == "JOIN")
                                 {
-                                    writer.WriteLine("PRIVMSG " + _channel + " Hej " + getnick[1]);
+                                    writer.WriteAsync("PRIVMSG " + _channel + " Hej " + getnick[1]);
                                     writer.Flush();
                                 }
 
@@ -123,8 +115,29 @@ namespace IRCBotWinForms
                                         break;
 
                                 }
-                                
-                                
+
+                                if (comm.messagesToSend.Count > 0)
+                                {
+                                    while (comm.messagesToSend.TryDequeue(out outputLine))
+                                    {
+                                        if (outputLine.Contains("/join") || outputLine.Contains("/quit"))
+                                        {
+                                            writer.WriteAsync(outputLine);
+                                        }
+                                        else
+                                        {
+                                            writer.WriteAsync("PRIVMSG " + _channel + " " + outputLine);
+
+                                        }
+
+                                    }
+
+                                }
+
+
+
+
+
                             }
                         }
                     }
