@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -22,9 +23,11 @@ namespace IRCBotWinForms
         // the bot's nickname
         private readonly string _nick;
         private readonly string _channel;
+        
 
         private readonly int _maxRetries;
         public Messages comm = new Messages();
+        public List<string> names = new List<string>();
        
         public IRCbot(string server, int port, string user, string nick, string channel, int maxRetries = 3)
         {
@@ -38,6 +41,7 @@ namespace IRCBotWinForms
 
         public void Start()
         {
+          //  workerSend.DoWork += workerSend_DoWork;
             var retry = false;
             var users = new List<string>();
             var retryCount = 0;
@@ -56,11 +60,15 @@ namespace IRCBotWinForms
                         writer.WriteLine(_user);
                         comm.messagesOut.Enqueue(_user);
                         writer.Flush();
+                        
 
-                        while (true)
+                        while (irc.Connected)
                         {
                             string inputLine;
                             string outputLine;
+                           
+
+
                             while ((inputLine = reader.ReadLine()) != null)
                             {
                                 Console.WriteLine("<- " + inputLine);
@@ -80,65 +88,54 @@ namespace IRCBotWinForms
                                     writer.Flush();
                                     //continue;
                                 }
-                                if (splitInput[1] == "PRIVMSG" && splitInput[3].Contains(_nick))
+
+                                if (splitInput[1] == "001")
                                 {
-                                    writer.WriteAsync("PRIVMSG " + _channel + " PUHUPUHU");
+                                    writer.WriteLine("JOIN " + _channel);
+                                    writer.Flush();
+                                }
+                                //else if (splitInput[1] == "353")
+                                //{
+                                //    names.Clear();                                    
+                                //    var namesonChanel = splitInput;
+                                //    foreach (var item in namesonChanel)
+                                //    {
+                                //        names.Add(item);
+                                //    }
+                                //}
+                                else if (splitInput[1] == "PRIVMSG" && splitInput[3].Contains(_nick))
+                                {
+                                    writer.WriteLine("PRIVMSG " + _channel + " PUHUPUHU");
                                     writer.Flush();
                                 }
                                 else if (splitInput[1] == "QUIT"  || splitInput[1] == "PART" )
                                 {
-                                    writer.WriteAsync("PRIVMSG " + _channel + " :( " + getnick[1]);
+                                    writer.WriteLine("PRIVMSG " + _channel + " :( " + getnick[1]);                                   
+                                    writer.Flush();
+                                    writer.WriteLine("NAMES " + _channel);
                                     writer.Flush();
                                 }
                                 else if (splitInput[1] == "JOIN")
                                 {
-                                    writer.WriteAsync("PRIVMSG " + _channel + " Hej " + getnick[1]);
+                                    writer.WriteLine("PRIVMSG " + _channel + " Hej " + getnick[1]);                             
+                                    writer.Flush();
+                                    writer.WriteLine("NAMES " + _channel);
                                     writer.Flush();
                                 }
 
-                                switch (splitInput[1])
+                                while (comm.messagesToSend.TryDequeue(out outputLine))
                                 {
-                                    case "001":
-                                        writer.WriteLine("JOIN " + _channel);
-                                        writer.Flush();
-                                        break;
-                                    default:
-                                        break;
-                                    case "333":
-                                       // writer.WriteLine("JOIN " + _channel);
-                                       // writer.Flush();
-                                        break;
-
-                                    case "PRIVMSG":
-                                       //  writer.WriteLine("PRIVMSG " + _channel +" PUHUPUHU");
-                                       //  writer.Flush();
-                                        break;
-
+                                    Send(outputLine, writer);                                   
                                 }
-
-                                if (comm.messagesToSend.Count > 0)
-                                {
-                                    while (comm.messagesToSend.TryDequeue(out outputLine))
-                                    {
-                                        if (outputLine.Contains("/join") || outputLine.Contains("/quit"))
-                                        {
-                                            writer.WriteAsync(outputLine);
-                                        }
-                                        else
-                                        {
-                                            writer.WriteAsync("PRIVMSG " + _channel + " " + outputLine);
-
-                                        }
-
-                                    }
-
-                                }
-
-
 
 
 
                             }
+
+
+                            
+
+
                         }
                     }
                 }
@@ -195,5 +192,36 @@ namespace IRCBotWinForms
             comm.messagesOut.Enqueue(msg);
         }
 
+        public void Send (string message, StreamWriter sw)
+        {
+            if (message.Contains("/join") || message.Contains("/part"))
+            {
+                sw.WriteLine(message);
+            }
+            else if ((message.Contains("/quit")))
+            {
+                sw.WriteLine(message);
+            }
+            else
+            {
+                sw.WriteLine("PRIVMSG " + _channel + " " + message);
+            }
+        }
+
+        private void workerSend_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var timer = new System.Timers.Timer(500);
+            timer.Elapsed += EventSend;
+            timer.Enabled = true;
+        }
+
+        public void EventSend(object sender, ElapsedEventArgs e)
+        {
+            string outputLine;
+            while (comm.messagesToSend.TryDequeue(out outputLine))
+            {
+              //  Send(outputLine, sw)
+            }
+        }
     }    
 }

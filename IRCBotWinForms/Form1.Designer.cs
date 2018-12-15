@@ -42,6 +42,8 @@
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.richTextBoxMessageToSend = new System.Windows.Forms.RichTextBox();
             this.buttonSend = new System.Windows.Forms.Button();
+            this.richTextBoxNames = new System.Windows.Forms.RichTextBox();
+            this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -87,7 +89,7 @@
             this.textBoxChannel.Name = "textBoxChannel";
             this.textBoxChannel.Size = new System.Drawing.Size(100, 20);
             this.textBoxChannel.TabIndex = 4;
-            this.textBoxChannel.Text = "#motomirko";
+            this.textBoxChannel.Text = "#testsowy";
             // 
             // tabControl1
             // 
@@ -163,11 +165,24 @@
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
+            // richTextBoxNames
+            // 
+            this.richTextBoxNames.Location = new System.Drawing.Point(672, 91);
+            this.richTextBoxNames.Name = "richTextBoxNames";
+            this.richTextBoxNames.Size = new System.Drawing.Size(100, 306);
+            this.richTextBoxNames.TabIndex = 7;
+            this.richTextBoxNames.Text = "";
+            // 
+            // backgroundWorker3
+            // 
+            this.backgroundWorker3.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker3_DoWork);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 505);
+            this.Controls.Add(this.richTextBoxNames);
             this.Controls.Add(this.buttonSend);
             this.Controls.Add(this.richTextBoxMessageToSend);
             this.Controls.Add(this.tabControl1);
@@ -202,6 +217,8 @@
         private System.Windows.Forms.RichTextBox richTextBoxMsgOut;
         private System.Windows.Forms.Button buttonSend;
         private System.Windows.Forms.RichTextBox richTextBoxMessageToSend;
+        private System.Windows.Forms.RichTextBox richTextBoxNames;
+        private System.ComponentModel.BackgroundWorker backgroundWorker3;
     }
 }
 
